@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="exampleDialog">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link rel="stylesheet" href="css/ngDialog.css">
+	<link rel="stylesheet" href="css/ngDialog-theme-default.css">
+	<link rel="stylesheet" href="css/ngDialog-theme-plain.css">
+    <title>American Express Merchant</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css?5" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<!--<style> html{display:none;} </style>
+<script>
+   if(self == top) {
+       document.documentElement.style.display = 'block'; 
+   } else {
+       top.location = self.location; 
+   }
+</script>-->
+</head>
+ <body ng-controller="MainCtrl">
+		<div id="fb-root"></div>
+		<!--<script>
+		  window.fbAsyncInit = function() {
+			FB.init({
+			  appId      : '661382087236638',
+			  status     : true,
+			  xfbml      : true
+			});
+		  };
+		  (function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "//connect.facebook.net/en_US/all.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		</script>  -->  
+		<div class="header">
+			<div class="container">
+				<span class="pullleft"><!--<img src="images/like.png" width="79" height="22" />--></span>
+				<u style="float:left">
+					<img src="images/mrewards1.jpg" alt="Membership Rewards" />
+				</u>
+				<u class="pullrgt">
+					<img src="images/aexpress1.png" alt="American Express" />
+				</u>
+			</div>
+		</div>
+		<div id="opaque"></div>
+		<div class="mid">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<img src="images/shop1.jpg" class="img-responsive"/>
+					</div>
+					<div class="col-md-3">
+						<p>Earn <b class="yellow">500 Bonus</b> Membership Rewards&reg; Points on your next transaction at over <b class="pink">10,000</b> merchants.</p>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="container" style="display:none">
+		  <!-- Static navbar -->
+			<div role="navigation" class="navbar navbar-default">
+				<div class="navbar-header">
+				  <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a href="index.html" class="navbar-brand"><img alt="" src="images/logo_small1.png"></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<strong>Find an outlet near you</strong>
+					<div class="category-div"></div>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+		<div class="container base listing" style="min-height:500px">
+			<div class="row">
+				<div class="col-sm-12 ">
+					<div class="filters">
+						<form action="">
+							<span class="fil">Select City: <em></em></span>
+							<div class="filter-category">
+								<select class="a-filter" ng-model="selectedCity" ng-options="city.name for city in cities" ng-change="loaddata(selectedCity.value)">
+								</select>
+							</div>
+							<div class="filter-city"></div>
+							<div class="filter-text"><input type="text" placeholder="Enter outlet name or location" class="input-filter" ng-model="filtertext"></div>
+							<div class="filter-button"></div>
+						</form>
+				  </div>
+				  <div class="filter-data" style="min-height:300px">
+					<h2 class="header-filter">{{selectedCity.name}}</h2>
+					<div class='data-filter'>
+						<ul>
+							<li class="dt" ng-repeat="cities in pagedItems[currentPage] | filter:filtertext">
+								<span class="nm heading">{{cities.Cell.0.Data}}</span>
+								<span class="add">{{cities.Cell.1.Data}}</span>
+							</li>							
+						</ul>
+						<ul class="pager">
+							<li ng-class="{disabled: isFirstPage() && 'disabled'}" ng-click="firstpage()"> <a class="prev">Page1</a></li>
+							<li ng-class="{disabled: isFirstPage() && 'disabled'}" ng-click="prevPage()"> <a class="prev">Prev</a></li>
+							<!--<li class="pages" ng-repeat="n in range(pagedItems.length)" ng-class="{active: n == currentPage}" ng-click="setPage()">
+                                <a href ng-bind="n + 1">1</a>
+                            </li>-->
+							<li class="pages" ng-repeat="i in [] | forLoop1:currentPage:pagecount()|limitTo :limitPerPage" ng-class="{active: currentPage==i && 'active'}" ng-click="setPage(i)">
+                                <a>{{i+1}}</a>
+                            </li>
+							
+							<li ng-class="{disabled: isLastPage() && 'disabled'}" ng-click="nextPage()">
+                                    <a class="next">Next</a>
+							</li>
+							<li ng-class="{disabled: isLastPage() && 'disabled'}" ng-click="lastpage()" >
+                                    <a class="next">Last1</a>
+							</li>
+						</ul>
+					</div>
+				  </div>
+				</div>        
+			</div>
+		</div>
+		<script type="text/ng-template" id="firstDialogId">
+		<div class="ngdialog-message"  id="citydialog" title="Select Your City">
+			<form id="city_form">
+				<select ng-model="selectedCity" ng-options="city.name for city in cities">
+				
+				</select>
+				<input type="button" id="city_btn" value="Select" ng-click="confirm(selectedCity)" />
+			</form>
+			<div class="clearfix"></div>
+		</div>
+		</script>
+		<footer>
+			<div class="container foot">     
+				<div class='col-md-12'>
+					<b>Terms & Conditions</b>
+					<ul class="ulfooter">
+						<li>• This offer is valid till 31st July 2014.</li>
+						<li>•	Offer is valid on all American Express Banking Corp. issued consumer cards in India excluding American Express Jet Platinum Card and American Express Payback Credit Card. </li>
+						<li>•	During the offer, customers can get 500 bonus reward points for spending Rs.500 or above on any of the listed merchants 
+								using their American Express Card. This offer can only be availed upto a maximum of 2 times during the offer period.</li> 
+						<li>•	American Express reserves its absolute right to withdraw and/or alter any of the terms and conditions of the offer at any time 
+							without prior notice</li>
+						<li>•	Any disputes arising out of and in connection with this offer shall be subject to the exclusive jurisdiction of the courts in the 
+							state of Delhi only.</li>
+					</ul><br/><br/>		
+				</div>
+			</div>	 
+		</footer>
+		<!--<script type="text/javascript" src="js/lib/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/lib/jquery-ui-1.10.4.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/lib/merchants.js?2"></script>
+		<script type="text/javascript" src="js/search.js"></script>-->
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script src="js/ngDialog.js"></script>	
+		<script src="js/xml2json1.js"></script>		
+		<script>
+			var app = angular.module('exampleDialog', ['ngDialog']);
+			app.filter('forLoop1', function() {
+				return function(input, start, end) {
+					input = new Array(end - start);
+					for (var i = 0; start < end; start++, i++) {
+						input[i] = start;
+					}
+
+					return input;
+				};
+			});
+			app.controller('MainCtrl', function ($scope, $rootScope, ngDialog,$http) {
+				$scope.cities =[{name:'Bangalore', value:'Bangalore'},
+								  {name:'Delhi', value:'Delhi'},
+								  {name:'Mumbai', value:'Mumbai'},
+								  {name:'Other Cities', value:'OtherCities'},
+								  {name:'Chennai', value:'Chennai'}];
+				$scope.selectedCity = $scope.cities[0];
+				$scope.filtertext ='';
+				$scope.itemsPerPage = 20;
+				$scope.pagedItems =[];
+				$scope.citydata =[];
+				$scope.currentPage = 0;
+				$scope.colsperpage = 20;
+				$scope.limitPerPage =10;
+				ngDialog.openConfirm({
+					template: 'firstDialogId',
+					//controller: 'MainCtrl',
+					className: 'ngdialog-theme-default',
+					scope:$scope
+				}).then(function (value) {
+					console.log('Modal promise resolved.', value.value);
+					$scope.selectedCity = value;					
+					$scope.loaddata($scope.selectedCity.value);
+					
+				}, function () {
+					console.log('Modal promise rejected.');
+				});
+			    $scope.loaddata = function(cityname){
+					$scope.url = 'xml/'+cityname+'.xml';
+					$http.get($scope.url).then(function(response){
+						console.log(response);
+						var xmldata = $.xml2json(response.data);
+						console.log(xmldata.Worksheet.Table.Row[0]);
+						$scope.citydata = xmldata.Worksheet.Table.Row;
+						$scope.grouptopages();
+						$scope.firstpage();
+					});
+				};
+				$scope.grouptopages = function(){
+					$scope.pagedItems =[];
+					for(var i=0;i<$scope.citydata.length;i++){
+						if (i % $scope.itemsPerPage === 0) {
+							$scope.pagedItems[Math.floor(i / $scope.itemsPerPage)] = [ $scope.citydata[i] ];
+						} else {
+							$scope.pagedItems[Math.floor(i / $scope.itemsPerPage)].push($scope.citydata[i]);
+						}
+					}
+				};
+				$scope.range = function (start, end) {
+					var ret = [];
+					if (!end) {
+						end = start;
+						start = 0;
+					}
+					for (var i = start; i < end; i++) {
+						ret.push(i);
+					}
+					return ret;
+				};
+				$scope.prevPage = function () {					
+					if ($scope.isFirstPage()) {
+						return;
+					}
+					$scope.currentPage--;
+				};
+				
+				$scope.nextPage = function () {					
+					if ($scope.isLastPage()) {
+						return;
+					}
+					$scope.currentPage++;
+				};
+				$scope.firstpage = function(){
+					$scope.currentPage =0;
+				};
+				$scope.lastpage = function(){
+					$scope.currentPage = $scope.pagedItems.length - 1;
+				};
+				$scope.isFirstPage = function(){
+					return $scope.currentPage == 0;
+				};
+				$scope.isLastPage = function(){
+					return $scope.currentPage == $scope.pagedItems.length - 1;
+				};
+				$scope.setPage = function (page) {
+					if (page > $scope.pagecount()) {
+						return;
+					}        
+					$scope.currentPage = page;
+				};
+
+				$scope.pagecount = function(){
+					return Math.ceil(parseInt($scope.citydata.length) / parseInt($scope.colsperpage));
+				}	
+			});
+			
+			
+
+			
+		</script>
+    </body>
+</html>
